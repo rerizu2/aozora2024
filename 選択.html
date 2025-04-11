@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ゲーム選択</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0d1b2a, #1b263b);
+      color: white;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      flex: 1;
+      padding: 40px;
+      background-color: rgba(0, 0, 50, 0.6);
+    }
+
+    .sidebar h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    .sidebar p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+    }
+
+    a.btn-gradient {
+  border-radius: 100vh;
+}
+
+    .mode-carousel {
+      flex: 2;
+      overflow-x: auto;
+      display: flex;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 20px;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 10px;
+      width: 200px;
+      text-align: center;
+      transition: transform 0.3s, border 0.3s;
+      cursor: pointer;
+    }
+
+    .card.selected {
+      border: 2px solid #2ec4b6;
+      transform: scale(1.1);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 5px;
+    }
+
+    .card p {
+      margin-top: 10px;
+    }
+
+    /* スクロールバー非表示（オプション） */
+    .mode-carousel::-webkit-scrollbar {
+      display: none;
+    }
+    .mode-carousel {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    /* From Uiverse.io by Codecite */ 
+.btn {
+  --fancy-button-gradient-0: #8d49fd;
+  --fancy-button-gradient-50: #7f56f3;
+  --fancy-button-gradient-100: #5691f3;
+  --fancy-button-inner-shadow-top: rgba(233, 209, 255, 0.2);
+  --fancy-button-inner-shadow-top-lg: rgba(9, 12, 60, 0.1);
+  --fancy-button-inner-shadow-bottom: rgba(137, 222, 246, 0.3);
+  --fancy-button-shine-top: #e9d1ff;
+  --fancy-button-shine-bottom: #adfff9;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 21px;
+  text-shadow: 0px 0.5px 0.5px rgba(0, 0, 0, 0.2);
+  padding: 0;
+  margin: 0;
+  appearance: none;
+  border: none;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  z-index: 1;
+  border-radius: 25px;
+  color: #fff;
+  background-image: linear-gradient(
+    to bottom,
+    var(--fancy-button-gradient-0) 0%,
+    var(--fancy-button-gradient-50) 50%,
+    var(--fancy-button-gradient-100) 100%
+  );
+  box-shadow:
+    0px 4px 12px rgba(9, 12, 60, 0.15),
+    0px 2px 8px rgba(9, 12, 60, 0.15),
+    0px 1px 3px var(--fancy-button-inner-shadow-top-lg),
+    inset 0px 1px 1px var(--fancy-button-inner-shadow-top),
+    inset 0px -1px 3px var(--fancy-button-inner-shadow-bottom);
+}
+
+.btn:before,
+.btn:after {
+  content: "";
+  position: absolute;
+  border-radius: inherit;
+  will-change: transform;
+}
+
+.btn:before {
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--fancy-button-shine-top);
+  width: 96px;
+  height: 6px;
+  top: -3px;
+  opacity: 0.6;
+  filter: blur(6px);
+  transition: opacity 0.25s;
+}
+
+.btn:after {
+  inset: 0;
+  background-size: cover;
+  z-index: 2;
+  opacity: 0.3;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.btn span {
+  display: block;
+  padding: 12px 24px;
+  border-radius: inherit;
+  overflow: hidden;
+  position: relative;
+  background-image: linear-gradient(
+    to bottom,
+    var(--fancy-button-shine-top),
+    transparent 8px
+  );
+  background-position: 0 -6px;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+.btn span:before,
+.btn span:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background-color: var(--fancy-button-shine-bottom);
+  transition:
+    opacity 0.25s,
+    transform 0.25s;
+  will-change: transform;
+}
+
+.btn span:before {
+  width: 92px;
+  height: 8px;
+  bottom: -4px;
+  opacity: 0.75;
+  filter: blur(6px);
+}
+
+.btn span:after {
+  width: 112px;
+  height: 1px;
+  bottom: 0;
+  opacity: 0.9;
+  filter: blur(1px);
+}
+
+.btn:hover span:before {
+  opacity: 0.8;
+}
+
+.btn:hover span:before {
+  transform: translateX(-50%) scale(1.25);
+}
+
+.btn:hover span:after {
+  opacity: 1;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <h1>ゲーム選択画面</h1>
+      <p>あなたが好きなゲームを選んでください。</p>
+    </div>
+
+    <div class="mode-carousel">
+      <div class="carousel-track">
+        <div class="card selected">
+          <img src="https://via.placeholder.com/200x120?text=クラシック" alt="クラシックモード">
+          <p>コイン落とし</p>
+            <!-- From Uiverse.io by Codecite --> 
+<button class="btn">
+  <span>Get started</span>
+</button>
+
+            </div>
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/200x120?text=RPG" alt="RPG">
+          <p>RPG</p>
+          <!-- From Uiverse.io by Codecite --> 
+<button class="btn">
+  <span>Get started</span>
+</button>
+
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/200x120?text=fps" alt="fps">
+          <p>fps</p>
+          <!-- From Uiverse.io by Codecite --> 
+<button class="btn">
+  <span>Get started</span>
+</button>
+
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/200x120?text=3Dホラーゲーム" alt="3Dホラーゲーム">
+          <p>3Dホラーゲーム</p>
+          <!-- From Uiverse.io by Codecite --> 
+<button class="btn">
+  <span>Get started</span>
+</button>
+
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/200x120?text=ゾーンウォーズ" alt="ゾーンウォーズ">
+          <p>ゾーンウォーズ</p>
+          <!-- From Uiverse.io by Codecite --> 
+<button class="btn">
+  <span>Get started</span>
+</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelector('.selected')?.classList.remove('selected');
+        card.classList.add('selected');
+      });
+    });
+  </script>
+</body>
+</html>
